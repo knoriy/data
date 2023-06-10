@@ -43,6 +43,11 @@ from torchdata.datapipes.iter.load.fsspec import (
     FSSpecSaverIterDataPipe as FSSpecSaver,
 )
 
+from torchdata.datapipes.iter.load.boto3 import (
+    Boto3FileListerIterDataPipe as Boto3FileLister,
+    Boto3FileOpenerIterDataPipe as Boto3FileOpener,
+)
+
 from torchdata.datapipes.iter.load.huggingface import HuggingFaceHubReaderIterDataPipe as HuggingFaceHubReader
 
 from torchdata.datapipes.iter.load.iopath import (
