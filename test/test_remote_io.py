@@ -20,6 +20,8 @@ from torchdata.datapipes.iter import (
     FileOpener,
     FSSpecFileLister,
     FSSpecFileOpener,
+    Boto3FileLister,
+    Boto3FileOpener,
     HttpReader,
     IterableWrapper,
     OnDiskCacheHolder,
@@ -34,6 +36,13 @@ try:
     HAS_FSSPEC = True
 except ImportError:
     HAS_FSSPEC = False
+
+try:
+    import boto3
+
+    HAS_BOTO3 = True
+except ImportError:
+    HAS_BOTO3 = False
 
 try:
     import s3fs

@@ -37,6 +37,11 @@ except ImportError:
     fsspec = None
 
 try:
+    import boto3
+except ImportError:
+    boto3 = None
+
+try:
     import iopath
 except ImportError:
     iopath = None
@@ -83,6 +88,8 @@ def _filter_by_module_availability(datapipes):
         filter_set.update([iterdp.HuggingFaceHubReader])
     if fsspec is None:
         filter_set.update([iterdp.FSSpecFileLister, iterdp.FSSpecFileOpener, iterdp.FSSpecSaver])
+    if boto3 is None:
+        filter_set.update([iterdp.Boto3FileLister, iterdp.Boto3FileOpener])
     if iopath is None:
         filter_set.update([iterdp.IoPathFileLister, iterdp.IoPathFileOpener, iterdp.IoPathSaver])
     if rarfile is None:
@@ -207,6 +214,8 @@ class TestIterDataPipeSerialization(expecttest.TestCase):
                 (),
                 {"mode": "wb", "filepath_fn": partial(_filepath_fn, dir=self.temp_dir.name)},
             ),
+            (iterdp.Boto3FileLister, ".", (), {}),
+            (iterdp.Boto3FileOpener, None, (), {}),
             (iterdp.GDriveReader, None, (), {}),
             (iterdp.HashChecker, None, ({},), {}),
             (iterdp.Header, None, (3,), {}),
@@ -316,6 +325,7 @@ class TestIterDataPipeSerialization(expecttest.TestCase):
             iterdp.Decompressor,
             iterdp.FileOpener,
             iterdp.FSSpecFileOpener,
+            iterdp.Boto3FileOpener,
             iterdp.GDriveReader,
             iterdp.IoPathFileOpener,
             iterdp.HashChecker,
